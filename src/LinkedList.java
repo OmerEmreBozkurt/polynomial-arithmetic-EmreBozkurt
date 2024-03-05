@@ -94,8 +94,35 @@ public class LinkedList {
         return previous;
     }
 
+    public void deleteZeroCoefficients(){
+        this.deleteFromCoefficient(0);
+    }
+
+    public void deleteFromCoefficient(int coefficient) {
+        Node tmp = head;
+        Node previous = null;
+        while (tmp != null) {
+            if (tmp.getCoefficient() == coefficient){
+                if (previous != null){
+                    previous.setNext(tmp.next);
+                    if (tmp.next == null){
+                        tail = previous;
+                    }
+                } else {
+                    head = tmp.next;
+                    if (head == null){
+                        tail = null;
+                    }
+                }
+                break;
+            }
+            previous = tmp;
+            tmp = tmp.getNext();
+        }
+    }
+
     //  DeleteValue method modified
-    public void deleteValue(int PoX, int PoY, int PoZ){
+    public void deleteFromPowers(int PoX, int PoY, int PoZ){
         Node tmp = head;
         Node previous = null;
         while (tmp != null) {
@@ -137,7 +164,7 @@ public class LinkedList {
         StringBuilder result = new StringBuilder();
         Node tmp = head;
         while (tmp != null) {
-            result.append(tmp).append(" ");
+            result.append(tmp).append("");
             tmp = tmp.getNext();
         }
         return result.toString();

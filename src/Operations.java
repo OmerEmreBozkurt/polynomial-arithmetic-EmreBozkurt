@@ -3,7 +3,7 @@ public class Operations {
     public static LinkedList  doOperation(char operator, LinkedList[] polynomials) {
         if (operator == '+') {return addition(polynomials[0], polynomials[1]);}
         else if (operator == '-') {return subtruction(polynomials[0], polynomials[1]);}
-        else if (operator == '*') {return null;}
+        else if (operator == '*') {return multiplication(polynomials[0], polynomials[1]);}
         else {return null;}
     }
 
@@ -63,12 +63,34 @@ public class Operations {
         }
         if (!secondPolynomial.isEmpty()) {
             while (!secondPolynomial.isEmpty()) {
-                result.insertLast(new Node(secondPolynomial.head.coefficient, secondPolynomial.head.powerOfX, secondPolynomial.head.powerOfY, secondPolynomial.head.powerOfZ));
+                result.insertLast(new Node(-secondPolynomial.head.coefficient, secondPolynomial.head.powerOfX, secondPolynomial.head.powerOfY, secondPolynomial.head.powerOfZ));
                 secondPolynomial.deleteFirst();
             }
         }
+        result.deleteZeroCoefficients();
         return result;
     }
 
-
+    public static LinkedList multiplication(LinkedList polynomial1, LinkedList polynomial2) {
+        LinkedList firstPolynomial = polynomial1;
+        LinkedList result = new LinkedList();
+        while (!firstPolynomial.isEmpty()){
+            int firstCoefficient = firstPolynomial.head.getCoefficient();
+            int firstPOX = firstPolynomial.head.powerOfX;
+            int firstPOY = firstPolynomial.head.powerOfY;
+            int firstPOZ = firstPolynomial.head.powerOfZ;
+            LinkedList secondPolynomial = polynomial2;
+            while (!secondPolynomial.isEmpty()){
+                int secondCoefficient = secondPolynomial.head.getCoefficient();
+                int secondPOX = secondPolynomial.head.powerOfX;
+                int secondPOY = secondPolynomial.head.powerOfY;
+                int secondPOZ = secondPolynomial.head.powerOfZ;
+                result.insertLast(new Node(firstCoefficient * secondCoefficient, firstPOX + secondPOX, firstPOY + secondPOY, firstPOZ + secondPOZ));
+                secondPolynomial.deleteFirst();
+            }
+            firstPolynomial.deleteFirst();
+        }
+        result.deleteZeroCoefficients();
+        return result;
+    }
 }

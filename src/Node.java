@@ -37,7 +37,29 @@ public class Node {
 
     public String toString(){
         StringBuilder termStr = new StringBuilder();
-        return "" + coefficient + "x" + powerOfX + "y" + powerOfY + "z" + powerOfZ ;
+        if (coefficient != 1) {termStr.append(coefficient);}
+        if (powerOfX != 0) {
+            termStr.append("x");
+            if (powerOfX != 1) {
+                termStr.append(powerOfX);
+            }
+        }
+        if (powerOfY != 0) {
+            termStr.append("y");
+            if (powerOfY != 1) {
+                termStr.append(powerOfY);
+            }
+        }
+        if (powerOfZ != 0) {
+            termStr.append("z");
+            if (powerOfZ != 1) {
+                termStr.append(powerOfZ);
+            }
+        }
+        if (next != null){
+            if (next.coefficient >= 0) {termStr.append("+");}
+        }
+        return termStr.toString();
     }
 
 }
