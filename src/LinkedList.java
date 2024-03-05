@@ -32,27 +32,27 @@ public class LinkedList {
         }
         tail = newNode;
     }
-    
+
     public void insertMiddle(Node newNode, Node previous) {
         newNode.setNext(previous.getNext());
         previous.setNext(newNode);
     }
 
-//  Search method should modified
-//    /**
-//     * @param value The value to be searched.
-//     * @return The node that has the data value. If no node exists, returns null.
-//     */
-//    public Node search(int value) {
-//        Node tmp = head;
-//        while (tmp != null) {
-//            if (value == tmp.getData()) {
-//                return tmp;
-//            }
-//            tmp = tmp.getNext();
-//        }
-//        return null;
-//    }
+    // Search method modified
+    /**
+     * @param PoX, PoY, PoZ The value to be searched.
+     * @return The node that has the data value. If no node exists, returns null.
+     */
+    public Node search(int PoX, int PoY, int PoZ) {
+        Node tmp = head;
+        while (tmp != null) {
+            if (tmp.getPowerOfX() == PoX && tmp.getPowerOfY() == PoY && tmp.getPowerOfZ() == PoZ) {
+                return tmp;
+            }
+            tmp = tmp.getNext();
+        }
+        return null;
+    }
 
     public Node getNodeI(int i) {
         Node tmp = head;
@@ -94,29 +94,29 @@ public class LinkedList {
         return previous;
     }
 
-//  DeleteValue method should be modified
-//    public void deleteValue(int value){
-//        Node tmp = head;
-//        Node previous = null;
-//        while (tmp != null) {
-//            if (tmp.getData() == value){
-//                if (previous != null){
-//                    previous.setNext(tmp.next);
-//                    if (tmp.next == null){
-//                        tail = previous;
-//                    }
-//                } else {
-//                    head = tmp.next;
-//                    if (head == null){
-//                        tail = null;
-//                    }
-//                }
-//                break;
-//            }
-//            previous = tmp;
-//            tmp = tmp.getNext();
-//        }
-//    }
+    //  DeleteValue method modified
+    public void deleteValue(int PoX, int PoY, int PoZ){
+        Node tmp = head;
+        Node previous = null;
+        while (tmp != null) {
+            if (tmp.getPowerOfX() == PoX && tmp.getPowerOfY() == PoY && tmp.getPowerOfZ() == PoZ){
+                if (previous != null){
+                    previous.setNext(tmp.next);
+                    if (tmp.next == null){
+                        tail = previous;
+                    }
+                } else {
+                    head = tmp.next;
+                    if (head == null){
+                        tail = null;
+                    }
+                }
+                break;
+            }
+            previous = tmp;
+            tmp = tmp.getNext();
+        }
+    }
 
     public void deleteLast(){
         tail = getPrevious(tail);

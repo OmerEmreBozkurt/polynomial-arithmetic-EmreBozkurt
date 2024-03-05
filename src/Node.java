@@ -36,6 +36,7 @@ public class Node {
     }
 
     public String toString(){
+        StringBuilder termStr = new StringBuilder();
         return "" + coefficient + "x" + powerOfX + "y" + powerOfY + "z" + powerOfZ ;
     }
 
