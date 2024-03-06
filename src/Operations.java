@@ -14,9 +14,7 @@ public class Operations {
         } else {return 0;}
     }
 
-    public static LinkedList addition(LinkedList polynomial1, LinkedList polynomial2) {
-        LinkedList firstPolynomial = polynomial1;
-        LinkedList secondPolynomial = polynomial2;
+    public static LinkedList addition(LinkedList firstPolynomial, LinkedList secondPolynomial) {
         LinkedList result = new LinkedList();
         while (!firstPolynomial.isEmpty()){
             if (!secondPolynomial.isEmpty()) {
@@ -42,9 +40,7 @@ public class Operations {
         return result;
     }
 
-    public static LinkedList subtruction(LinkedList polynomial1, LinkedList polynomial2) {
-        LinkedList firstPolynomial = polynomial1;
-        LinkedList secondPolynomial = polynomial2;
+    public static LinkedList subtruction(LinkedList firstPolynomial, LinkedList secondPolynomial) {
         LinkedList result = new LinkedList();
         while (!firstPolynomial.isEmpty()){
             if (!secondPolynomial.isEmpty()) {

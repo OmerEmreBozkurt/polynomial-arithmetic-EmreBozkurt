@@ -94,10 +94,13 @@ public class LinkedList {
         return previous;
     }
 
+    //deletes terms which has 0 as coefficient
     public void deleteZeroCoefficients(){
         this.deleteFromCoefficient(0);
     }
 
+
+    //  Delete method for known Coefficient
     public void deleteFromCoefficient(int coefficient) {
         Node tmp = head;
         Node previous = null;
@@ -121,7 +124,7 @@ public class LinkedList {
         }
     }
 
-    //  DeleteValue method modified
+    //  Delete method for known powers
     public void deleteFromPowers(int PoX, int PoY, int PoZ){
         Node tmp = head;
         Node previous = null;
