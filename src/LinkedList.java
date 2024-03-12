@@ -32,16 +32,19 @@ public class LinkedList {
         }
         tail = newNode;
     }
-
+    
     public void insertMiddle(Node newNode, Node previous) {
         newNode.setNext(previous.getNext());
         previous.setNext(newNode);
     }
 
-    // Search method modified
+ // Search method modified
     /**
-     * @param PoX, PoY, PoZ The value to be searched.
-     * @return The node that has the data value. If no node exists, returns null.
+     *
+     * @param PoX Power of x value to be searched
+     * @param PoY Power of y value to be searched
+     * @param PoZ Power of z value to be searched
+     * @return Node that has the power value. If no node exists, returns null.
      */
     public Node search(int PoX, int PoY, int PoZ) {
         Node tmp = head;
@@ -94,14 +97,20 @@ public class LinkedList {
         return previous;
     }
 
-    //deletes terms which has 0 as coefficient
+    /**
+     * deletes node that has 0 as a coefficient
+     */
     public void deleteZeroCoefficients(){
-        this.deleteFromCoefficient(0);
+        boolean status = true;
+        while (status) status = this.deleteWithCoefficient(0);
     }
 
-
-    //  Delete method for known Coefficient
-    public void deleteFromCoefficient(int coefficient) {
+    /**
+     * deletes term that has provided coefficient value
+     * @param coefficient coefficient value to be searched
+     * @return boolean which indicates deletion operation is successful or not.
+     */
+    public boolean deleteWithCoefficient(int coefficient){
         Node tmp = head;
         Node previous = null;
         while (tmp != null) {
@@ -117,15 +126,23 @@ public class LinkedList {
                         tail = null;
                     }
                 }
-                break;
+                return true;
             }
             previous = tmp;
             tmp = tmp.getNext();
         }
+        return false;
     }
 
-    //  Delete method for known powers
-    public void deleteFromPowers(int PoX, int PoY, int PoZ){
+//  Delete method which use powers
+
+    /**
+     *  deletes term that has provided power values
+     * @param PoX Power of x value to be searched
+     * @param PoY Power of y value to be searched
+     * @param PoZ Power of z value to be searched
+     */
+    public void deleteWithPower(int PoX, int PoY, int PoZ){
         Node tmp = head;
         Node previous = null;
         while (tmp != null) {
@@ -163,8 +180,60 @@ public class LinkedList {
         previous.setNext(node.getNext());
     }
 
+    // will be modified
+    public void sortPolynomial(){
+        for (int i = 0; i < this.numberOfElements(); i++) {
+            Node temp = getNodeI(i);
+            if (temp == tail){break;}
+            Node tempNext = temp.next;
+            if (tempNext != null && temp.getPowerOfX() < tempNext.getPowerOfX()) {
+                swap(temp,tempNext);
+            } else if (tempNext != null && temp.getPowerOfX() == tempNext.getPowerOfX()) {
+                if (temp.getPowerOfY() < tempNext.getPowerOfY()) {
+                    swap(temp,tempNext);
+                } else if (temp.getPowerOfY() == tempNext.getPowerOfY()) {
+                    if (temp.getPowerOfZ() < tempNext.getPowerOfZ()) {
+                        swap(temp,tempNext);
+                    }
+                }
+            }
+        }
+        if (!checkSorted()) sortPolynomial();
+    }
+
+    public boolean checkSorted(){
+        if (head != null) {
+            int maxX = this.head.powerOfX;
+            for (int i = 0; i < this.numberOfElements(); i++) {
+                Node temp = getNodeI(i);
+                if (temp.getPowerOfX() > maxX) {return false;}
+                if (temp.next != null) {
+                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() < temp.next.powerOfY) {
+                        return false;
+                    }
+                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() == 0 && temp.getPowerOfZ() < temp.next.powerOfZ) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public void swap (Node node1, Node node2) {
+        if (node1 != head) {
+            getPrevious(node1).setNext(node2);
+            node1.next = node2.next;
+            node2.next = node1;
+        } else {
+            node1.next = node2.next;
+            insertFirst(node2);
+        }
+    }
+
     public String toString(){
         StringBuilder result = new StringBuilder();
+        if (head == null) return "0";
         Node tmp = head;
         while (tmp != null) {
             result.append(tmp).append("");

@@ -1,9 +1,15 @@
 public class Operations {
-    /*This method calls the operation method we need*/
-    public static LinkedList  doOperation(char operator, LinkedList[] polynomials) {
-        if (operator == '+') {return addition(polynomials[0], polynomials[1]);}
-        else if (operator == '-') {return subtruction(polynomials[0], polynomials[1]);}
-        else if (operator == '*') {return multiplication(polynomials[0], polynomials[1]);}
+    /**
+     * This method calls the operation method we need
+     * @param operator  Char that indicates which operation method should returned
+     * @param firstPolynomial
+     * @param secondPolynomial
+     * @return
+     */
+    public static LinkedList  doOperation(char operator, LinkedList firstPolynomial, LinkedList secondPolynomial) {
+        if (operator == '+') {return addition(firstPolynomial, secondPolynomial);}
+        else if (operator == '-') {return substraction(firstPolynomial, secondPolynomial);}
+        else if (operator == '*') {return multiplication(firstPolynomial, secondPolynomial);}
         else {return null;}
     }
 
@@ -17,76 +23,76 @@ public class Operations {
     public static LinkedList addition(LinkedList firstPolynomial, LinkedList secondPolynomial) {
         LinkedList result = new LinkedList();
         while (!firstPolynomial.isEmpty()){
-            if (!secondPolynomial.isEmpty()) {
-                int firstCoefficient = firstPolynomial.head.getCoefficient();
-                int firstPOX = firstPolynomial.head.powerOfX;
-                int firstPOY = firstPolynomial.head.powerOfY;
-                int firstPOZ = firstPolynomial.head.powerOfZ;
-                int coefficientOfMatchingNode = findCoefficientOfMatchingNode(secondPolynomial, firstPOX, firstPOY, firstPOZ);
-                result.insertLast(new Node(firstCoefficient + coefficientOfMatchingNode, firstPOX, firstPOY, firstPOZ));
+            Node firstTerm = firstPolynomial.head;
+            int firstCoefficient = firstTerm.coefficient;
+            int PoX = firstTerm.powerOfX;
+            int PoY = firstTerm.powerOfY;
+            int PoZ = firstTerm.powerOfZ;
+            int secondCoefficient = findCoefficientOfMatchingNode(secondPolynomial,PoX,PoY,PoZ);
+            if (secondCoefficient != 0) {
+                result.insertLast(new Node(firstCoefficient + secondCoefficient, PoX, PoY, PoZ));
+                secondPolynomial.deleteWithPower(PoX, PoY, PoZ);
                 firstPolynomial.deleteFirst();
-                if (coefficientOfMatchingNode != 0) {secondPolynomial.deleteFirst();}
             } else {
-                result.insertLast(new Node(firstPolynomial.head.coefficient, firstPolynomial.head.powerOfX, firstPolynomial.head.powerOfY, firstPolynomial.head.powerOfZ));
+                result.insertLast(firstTerm);
                 firstPolynomial.deleteFirst();
             }
         }
-        if (!secondPolynomial.isEmpty()) {
-            while (!secondPolynomial.isEmpty()) {
-                result.insertLast(new Node(secondPolynomial.head.coefficient, secondPolynomial.head.powerOfX, secondPolynomial.head.powerOfY, secondPolynomial.head.powerOfZ));
-                secondPolynomial.deleteFirst();
-            }
+        while (!secondPolynomial.isEmpty()){
+            Node term = secondPolynomial.head;
+            result.insertLast(new Node(term.coefficient, term.getPowerOfX(), term.powerOfY, term.powerOfZ));
+            secondPolynomial.deleteFirst();
         }
+        result.deleteZeroCoefficients();
+        result.sortPolynomial();
         return result;
     }
 
-    public static LinkedList subtruction(LinkedList firstPolynomial, LinkedList secondPolynomial) {
+    public static LinkedList substraction(LinkedList firstPolynomial, LinkedList secondPolynomial) {
         LinkedList result = new LinkedList();
         while (!firstPolynomial.isEmpty()){
-            if (!secondPolynomial.isEmpty()) {
-                int firstCoefficient = firstPolynomial.head.getCoefficient();
-                int firstPOX = firstPolynomial.head.powerOfX;
-                int firstPOY = firstPolynomial.head.powerOfY;
-                int firstPOZ = firstPolynomial.head.powerOfZ;
-                int coefficientOfMatchingNode = findCoefficientOfMatchingNode(secondPolynomial, firstPOX, firstPOY, firstPOZ);
-                result.insertLast(new Node(firstCoefficient - coefficientOfMatchingNode, firstPOX, firstPOY, firstPOZ));
+            Node firstTerm = firstPolynomial.head;
+            int firstCoefficient = firstTerm.coefficient;
+            int PoX = firstTerm.powerOfX;
+            int PoY = firstTerm.powerOfY;
+            int PoZ = firstTerm.powerOfZ;
+            int secondCoefficient = findCoefficientOfMatchingNode(secondPolynomial,PoX,PoY,PoZ);
+            if (secondCoefficient != 0) {
+                result.insertLast(new Node(firstCoefficient - secondCoefficient, PoX, PoY, PoZ));
+                secondPolynomial.deleteWithPower(PoX, PoY, PoZ);
                 firstPolynomial.deleteFirst();
-                if (coefficientOfMatchingNode != 0) {secondPolynomial.deleteFirst();}
             } else {
-                result.insertLast(new Node(firstPolynomial.head.coefficient, firstPolynomial.head.powerOfX, firstPolynomial.head.powerOfY, firstPolynomial.head.powerOfZ));
+                result.insertLast(firstTerm);
                 firstPolynomial.deleteFirst();
             }
         }
-        if (!secondPolynomial.isEmpty()) {
-            while (!secondPolynomial.isEmpty()) {
-                result.insertLast(new Node(-secondPolynomial.head.coefficient, secondPolynomial.head.powerOfX, secondPolynomial.head.powerOfY, secondPolynomial.head.powerOfZ));
-                secondPolynomial.deleteFirst();
-            }
+        while (!secondPolynomial.isEmpty()){
+            Node term = secondPolynomial.head;
+            result.insertLast(new Node(-term.coefficient, term.getPowerOfX(), term.powerOfY, term.powerOfZ));
+            secondPolynomial.deleteFirst();
         }
         result.deleteZeroCoefficients();
+        result.sortPolynomial();
         return result;
     }
 
-    public static LinkedList multiplication(LinkedList polynomial1, LinkedList polynomial2) {
-        LinkedList firstPolynomial = polynomial1;
+    public static LinkedList multiplication(LinkedList firstPolynomial, LinkedList secondPolynomial) {
+        int firstPolynomialNodeCount = firstPolynomial.numberOfElements();
+        int secondPolynomialNodeCount = secondPolynomial.numberOfElements();
         LinkedList result = new LinkedList();
-        while (!firstPolynomial.isEmpty()){
-            int firstCoefficient = firstPolynomial.head.getCoefficient();
-            int firstPOX = firstPolynomial.head.powerOfX;
-            int firstPOY = firstPolynomial.head.powerOfY;
-            int firstPOZ = firstPolynomial.head.powerOfZ;
-            LinkedList secondPolynomial = polynomial2;
-            while (!secondPolynomial.isEmpty()){
-                int secondCoefficient = secondPolynomial.head.getCoefficient();
-                int secondPOX = secondPolynomial.head.powerOfX;
-                int secondPOY = secondPolynomial.head.powerOfY;
-                int secondPOZ = secondPolynomial.head.powerOfZ;
-                result.insertLast(new Node(firstCoefficient * secondCoefficient, firstPOX + secondPOX, firstPOY + secondPOY, firstPOZ + secondPOZ));
-                secondPolynomial.deleteFirst();
+        for (int i = 0; i < firstPolynomialNodeCount; i++) {
+            Node firstNode = firstPolynomial.getNodeI(i);
+            for (int j = 0; j < secondPolynomialNodeCount; j++) {
+                Node secondNode = secondPolynomial.getNodeI(j);
+                int resultCoefficient = firstNode.coefficient * secondNode.coefficient;
+                int resultPoX = firstNode.powerOfX + secondNode.powerOfX;
+                int resultPoY = firstNode.powerOfY + secondNode.powerOfY;
+                int resultPoZ = firstNode.powerOfZ + secondNode.powerOfZ;
+                result.insertLast(new Node(resultCoefficient,resultPoX,resultPoY,resultPoZ));
             }
-            firstPolynomial.deleteFirst();
         }
         result.deleteZeroCoefficients();
+        result.sortPolynomial();
         return result;
     }
 }

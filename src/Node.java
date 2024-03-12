@@ -36,30 +36,29 @@ public class Node {
     }
 
     public String toString(){
-        StringBuilder termStr = new StringBuilder();
-        if (coefficient != 1) {termStr.append(coefficient);}
-        if (powerOfX != 0) {
-            termStr.append("x");
+        StringBuilder term = new StringBuilder();
+        if (coefficient != 1) {term.append(coefficient);}
+        if (powerOfX != 0){
+            term.append("x");
             if (powerOfX != 1) {
-                termStr.append(powerOfX);
+                term.append(powerOfX);
             }
         }
-        if (powerOfY != 0) {
-            termStr.append("y");
+        if (powerOfY != 0){
+            term.append("y");
             if (powerOfY != 1) {
-                termStr.append(powerOfY);
+                term.append(powerOfY);
             }
         }
-        if (powerOfZ != 0) {
-            termStr.append("z");
+        if (powerOfZ != 0){
+            term.append("z");
             if (powerOfZ != 1) {
-                termStr.append(powerOfZ);
+                term.append(powerOfZ);
             }
         }
-        if (next != null){
-            if (next.coefficient >= 0) {termStr.append("+");}
-        }
-        return termStr.toString();
+        if (next != null && next.coefficient > 0) {term.append("+");}
+
+        return term.toString() ;
     }
 
 }
