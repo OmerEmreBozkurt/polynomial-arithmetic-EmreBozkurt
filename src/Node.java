@@ -1,4 +1,6 @@
-/*Modified Node class in order to hold coefficient,exponent as a int and variableName as a String*/
+/**
+ * Modified Node class in order to hold coefficient,exponent as int
+ */
 public class Node {
     protected int coefficient, powerOfX, powerOfY, powerOfZ;
     protected Node next;
@@ -35,9 +37,19 @@ public class Node {
         return powerOfZ;
     }
 
+    /**
+     * Check possible conditions of values of coefficient and powers.
+     * Builds a String for node.
+     * @return returns builded string.
+     */
     public String toString(){
         StringBuilder term = new StringBuilder();
-        if (coefficient != 1) {term.append(coefficient);}
+
+        if (coefficient != 1) {
+            if (coefficient == -1) {term.append("-");}
+            else {term.append(coefficient);}
+        }
+
         if (powerOfX != 0){
             term.append("x");
             if (powerOfX != 1) {

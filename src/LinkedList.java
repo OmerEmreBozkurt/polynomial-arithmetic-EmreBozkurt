@@ -40,7 +40,7 @@ public class LinkedList {
 
  // Search method modified
     /**
-     *
+     * Searches term that has provided power values
      * @param PoX Power of x value to be searched
      * @param PoY Power of y value to be searched
      * @param PoZ Power of z value to be searched
@@ -98,7 +98,7 @@ public class LinkedList {
     }
 
     /**
-     * deletes node that has 0 as a coefficient
+     * Deletes node that has 0 as a coefficient
      */
     public void deleteZeroCoefficients(){
         boolean status = true;
@@ -106,7 +106,7 @@ public class LinkedList {
     }
 
     /**
-     * deletes term that has provided coefficient value
+     * Deletes term that has provided coefficient value
      * @param coefficient coefficient value to be searched
      * @return boolean which indicates deletion operation is successful or not.
      */
@@ -137,7 +137,7 @@ public class LinkedList {
 //  Delete method which use powers
 
     /**
-     *  deletes term that has provided power values
+     * Deletes term that has provided power values
      * @param PoX Power of x value to be searched
      * @param PoY Power of y value to be searched
      * @param PoZ Power of z value to be searched
@@ -180,7 +180,9 @@ public class LinkedList {
         previous.setNext(node.getNext());
     }
 
-    // will be modified
+    /**
+     * This method sorts linked lists in the order of terms in nodes.
+     */
     public void sortPolynomial(){
         for (int i = 0; i < this.numberOfElements(); i++) {
             Node temp = getNodeI(i);
@@ -201,25 +203,30 @@ public class LinkedList {
         if (!checkSorted()) sortPolynomial();
     }
 
+    /**
+     * This method checks if linked list is sorted in the order of terms or not.
+     * @return if linked list is sorted it returns true, if not it returns false.
+     */
     public boolean checkSorted(){
         if (head != null) {
             int maxX = this.head.powerOfX;
             for (int i = 0; i < this.numberOfElements(); i++) {
                 Node temp = getNodeI(i);
-                if (temp.getPowerOfX() > maxX) {return false;}
                 if (temp.next != null) {
-                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() < temp.next.powerOfY) {
-                        return false;
-                    }
-                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() == 0 && temp.getPowerOfZ() < temp.next.powerOfZ) {
-                        return false;
-                    }
+                    if (temp.getPowerOfX() < temp.next.getPowerOfX()) {return false;}
+                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() < temp.next.powerOfY) {return false;}
+                    if (temp.getPowerOfX() == 0 && temp.getPowerOfY() == 0 && temp.getPowerOfZ() < temp.next.powerOfZ) {return false;}
                 }
             }
         }
         return true;
     }
 
+    /**
+     * This method swaps indexes of two nodes in linked list.
+     * @param node1 first node to be swapped.
+     * @param node2 second node to be swapped.
+     */
     public void swap (Node node1, Node node2) {
         if (node1 != head) {
             getPrevious(node1).setNext(node2);
@@ -233,12 +240,12 @@ public class LinkedList {
 
     public String toString(){
         StringBuilder result = new StringBuilder();
-        if (head == null) return "0";
         Node tmp = head;
         while (tmp != null) {
-            result.append(tmp).append("");
+            result.append(tmp);
             tmp = tmp.getNext();
         }
+        if (result.toString().equals("")) {return "0";}
         return result.toString();
     }
 }
